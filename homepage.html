@@ -5,12 +5,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Generator
-    </title>
+    <title>Recipe Generator</title>
 </head>
 
 <body>
+    <h1>Welcome to my weather finder</h1>
+    <h2 id="tempData">Fahrenheit: <span id="tempF">0</span>F Celsius:<span id="tempC">0</span> C</h2>
+    <h2 id="geography">Country: <span id="countryName">N/A</span><br>State: <span id="stateName">N/A</span>
+        <br>City: <span id="cityName">N/A</span>
+    </h2>
+    <form id="searchLocation">
+        <input id="searchInput" type="text" placeholder="Location" name="query">
+        <button id="submitButton">Search Database</button>
+    </form>
 
+    <ul id="locations"></ul>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>
