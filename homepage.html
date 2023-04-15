@@ -9,17 +9,19 @@
 </head>
 
 <body>
-    <h1>Welcome to my weather finder</h1>
-    <h2 id="tempData">Fahrenheit: <span id="tempF">0</span>F Celsius:<span id="tempC">0</span> C</h2>
-    <h2 id="geography">Country: <span id="countryName">N/A</span><br>State: <span id="stateName">N/A</span>
-        <br>City: <span id="cityName">N/A</span>
-    </h2>
-    <form id="searchLocation">
-        <input id="searchInput" type="text" placeholder="Location" name="query">
-        <button id="submitButton">Search Database</button>
+    <h1>Recipe Generator</h1>
+
+    <h2>Enter your ingredients</h2>
+
+    <form id="ingredientForm">
+        <input id="ingredientInput" type="text" placeholder="ingredient" name="query">
+        <ul id="recipesList">
+        </ul>
+        <button id="addIngredientButton">Add Ingredient</button>
+        <p>Click Ingredient To Remove</p>
     </form>
 
-    <ul id="locations"></ul>
+
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
     <script src="index.js"></script>
 </body>
