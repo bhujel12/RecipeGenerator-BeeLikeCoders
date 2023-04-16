@@ -31,9 +31,8 @@ submitForm.addEventListener('submit', async function (event) {
         recipeUrlInput += recipeArray[i].toString() + ",+";
     }
     console.log(recipeUrlInput);
-    axios.get("https://api.spoonacular.com/recipes/findByIngredients?ingredients=" + recipeUrlInput + "&apiKey=" + APIKey + "&includeNutrition=true.")
+    axios.get("https://api.spoonacular.com/recipes/findByIngredients?ingredients=" + recipeUrlInput + "&apiKey=" + APIKey + "&includeNutrition=false.")
         .then(function (response) {
-            console.log(response)
             removeOldRecipes();
             makeRecipes(response.data)
         })
@@ -46,8 +45,6 @@ const makeRecipes = (recipes) => {
     if (recipes.length > 0) {
         for (let recipe of recipes) {
             if (recipe.title && recipe.image) {
-
-                recipeIds.push(recipe.id);
 
                 const img = document.createElement('img');
                 img.src = recipe.image;
@@ -76,6 +73,9 @@ const makeRecipes = (recipes) => {
                 }
 
             }
+
+            getSummary(recipe.id);
+
         }
     } else {
         alert('No Recipes Available With Your Combo Of Ingredients');
@@ -100,10 +100,28 @@ const removeOldRecipes = () => {
         paragraphs[i].parentNode.removeChild(paragraphs[i]);
     }
 }
+const getSummary = (recipeId) => {
+
+
+    axios.get("https://api.spoonacular.com/recipes/" + recipeId + "/information?apiKey=" + APIKey + "&includeNutrition=false.")
+        .then(function (response) {
+            const summary = document.createElement('p');
+            summary.innerHTML = response.data.summary;
+            document.body.append(summary);
+
+            console.log(response.data.summary);
+            console.log(recipeId)
+
+        })
+        .catch(function (error) {
+            console.log(error);
+            console.log(recipeId);
+        })
+
+
+}
 
 //https://api.spoonacular.com/recipes/{id}/information
-
-
 // submitForm.addEventListener('submit', async function (event) {
 //     event.preventDefault();
 //     let recipeUrlInput = "";
