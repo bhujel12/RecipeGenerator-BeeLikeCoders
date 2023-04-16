@@ -22,7 +22,7 @@ ingredientForm.addEventListener('submit', (e) => {
     recipeArray.push(ingredientName);
     input.value = '';
 });
-const APIKey = "f6950064452e44f59f268d1c1f420aa9";
+const APIKey = "b8ebeca9b2c446a98c8592af96af2cde";
 
 submitForm.addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -100,16 +100,18 @@ const removeOldRecipes = () => {
         paragraphs[i].parentNode.removeChild(paragraphs[i]);
     }
 }
-const getSummary = (recipeId) => {
 
+
+const getSummary = (recipeId) => {
 
     axios.get("https://api.spoonacular.com/recipes/" + recipeId + "/information?apiKey=" + APIKey + "&includeNutrition=false.")
         .then(function (response) {
             const summary = document.createElement('p');
-            summary.innerHTML = response.data.summary;
+            let clean = DOMPurify.sanitize(response.data.summary);
+            summary.innerText = clean;
             document.body.append(summary);
-
             console.log(response.data.summary);
+            console.log(clean);
             console.log(recipeId)
 
         })
@@ -120,6 +122,7 @@ const getSummary = (recipeId) => {
 
 
 }
+
 
 //https://api.spoonacular.com/recipes/{id}/information
 // submitForm.addEventListener('submit', async function (event) {
