@@ -5,6 +5,7 @@ const input = document.querySelector('#ingredientInput');
 const addIngredientButton = document.querySelector('#addIngredientButton');
 const recipesList = document.querySelector('#recipesList');
 let recipeArray = [];
+let recipeIds = [];
 const lis = document.querySelectorAll('li');
 
 recipesList.addEventListener('click', function (e) {
@@ -45,11 +46,14 @@ const makeRecipes = (recipes) => {
     if (recipes.length > 0) {
         for (let recipe of recipes) {
             if (recipe.title && recipe.image) {
+
+                recipeIds.push(recipe.id);
+
                 const img = document.createElement('img');
                 img.src = recipe.image;
                 document.body.append(img);
 
-                const description = document.createElement('p');
+                const description = document.createElement('h5');
                 description.innerText = recipe.title;
                 document.body.append(description);
 
@@ -76,40 +80,44 @@ const makeRecipes = (recipes) => {
     } else {
         alert('No Recipes Available With Your Combo Of Ingredients');
     }
+
+    document.body.append(document.createElement('br'));
 }
+
+
 
 const removeOldRecipes = () => {
     let images = document.querySelectorAll('img');
     for (var i = 0; i < images.length; i++) {
         images[i].parentNode.removeChild(images[i]);
     }
+    let h5s = document.querySelectorAll('h5');
+    for (var i = 0; i < h5s.length; i++) {
+        h5s[i].parentNode.removeChild(h5s[i]);
+    }
+    let paragraphs = document.querySelectorAll('p');
+    for (var i = 1; i < paragraphs.length; i++) {
+        paragraphs[i].parentNode.removeChild(paragraphs[i]);
+    }
 }
 
+//https://api.spoonacular.com/recipes/{id}/information
 
 
-// const makeImages = (shows) => {
-//     for (let result of shows) {
-//         if (result.show.image) {
-//             const img = document.createElement('img');
-//             img.src = result.show.image.medium;
-//             document.body.append(img)
-//         }
-
+// submitForm.addEventListener('submit', async function (event) {
+//     event.preventDefault();
+//     let recipeUrlInput = "";
+//     for (let i = 0; i < recipeArray.length; i++) {
+//         recipeUrlInput += recipeArray[i].toString() + ",+";
 //     }
-// }
-
-
-const form = document.querySelector('#searchForm');
-form.addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const searchTerm = form.elements.query.value;
-    // for if we needed just one or so inputs
-    // const res = await axios.get(`https://api.tvmaze.com/search/shows?q=${searchTerm}`);
-    // for if we had multiple types of search inputs
-    const config = { params: { q: searchTerm } }
-    const res = await axios.get(`https://api.tvmaze.com/search/shows`, config);
-    makeImages(res.data)
-    form.elements.query.value = "";
-
-})
-
+//     console.log(recipeUrlInput);
+//     axios.get("https://api.spoonacular.com/recipes/findByIngredients?ingredients=" + recipeUrlInput + "&apiKey=" + APIKey + "&includeNutrition=true.")
+//         .then(function (response) {
+//             console.log(response)
+//             removeOldRecipes();
+//             makeRecipes(response.data)
+//         })
+//         .catch(function (error) {
+//             console.log(error);
+//         })
+// });
