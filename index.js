@@ -33,30 +33,52 @@ submitForm.addEventListener('submit', async function (event) {
     axios.get("https://api.spoonacular.com/recipes/findByIngredients?ingredients=" + recipeUrlInput + "&apiKey=" + APIKey + "&includeNutrition=true.")
         .then(function (response) {
             console.log(response)
-            removeOldImages();
-            makeImages(response.data)
-
+            removeOldRecipes();
+            makeRecipes(response.data)
         })
         .catch(function (error) {
             console.log(error);
         })
 });
 
-const makeImages = (recipes) => {
+const makeRecipes = (recipes) => {
     if (recipes.length > 0) {
         for (let recipe of recipes) {
-            if (recipe.image) {
+            if (recipe.title && recipe.image) {
                 const img = document.createElement('img');
                 img.src = recipe.image;
-                document.body.append(img)
+                document.body.append(img);
+
+                const description = document.createElement('p');
+                description.innerText = recipe.title;
+                document.body.append(description);
+
+                for (let missed of recipe.missedIngredients) {
+                    const needed = document.createElement('p');
+                    needed.innerText = missed.original;
+                    document.body.append(needed);
+                }
+
+                for (let unused of recipe.unusedIngredients) {
+                    const use = document.createElement('p');
+                    use.innerText = unused.original;
+                    document.body.append(use);
+                }
+
+                for (let used of recipe.usedIngredients) {
+                    const have = document.createElement('p');
+                    have.innerText = used.original;
+                    document.body.append(have);
+                }
+
             }
         }
     } else {
-        alert('No Recipes Available With Your Ingredients');
+        alert('No Recipes Available With Your Combo Of Ingredients');
     }
 }
 
-const removeOldImages = () => {
+const removeOldRecipes = () => {
     let images = document.querySelectorAll('img');
     for (var i = 0; i < images.length; i++) {
         images[i].parentNode.removeChild(images[i]);
